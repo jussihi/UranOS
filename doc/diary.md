@@ -1,5 +1,9 @@
 4.5.2019
 
+I added a simple VGA driver which is able to clear the screen for now. I did not add any other functionality just yet, because the VGA cursor still remains. It seems like I need to add the outb and inb functions to disable/move it. More info about it can be found from the website https://wiki.osdev.org/Text_Mode_Cursor. The screen is now cleared once the system boots, so there is no blue text anymore for testing purposes :-)
+
+4.5.2019
+
 Adopted the string header file and the printk skeleton from the SaturnOS kernel, however, I don't really like the way I tried to implement the display "driver" last time. I also dislike the way the string is transferred from the printk function to the display in the old version, so next big thing is to implement a better display driver with actual input/output buffers so that the screen can be scrolled. For now I'm not sure if I need to implement a heap for buffer storage, but first I'm going to create a simple driver with input (putc and maybe remc wich should remove the latest input character) and a proper terminal with input buffer for basic line input.
 
 21.3.2019

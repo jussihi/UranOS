@@ -1,5 +1,5 @@
 #include <uranos/kernel.h>
-#include <uranos/terminal.h>
+#include <uranos/console.h>
 #include <uranos/string.h>		/* strlen */
 
 #include <stdarg.h>
