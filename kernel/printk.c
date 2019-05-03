@@ -4,6 +4,8 @@
 
 #include <stdarg.h>
 
+extern console_t* console;
+
 int kprintf(const char* str, ...)
 {
 	if(!str)
@@ -28,7 +30,7 @@ int kprintf(const char* str, ...)
 					int d = va_arg(ap, int);
 					char buf[16] = {0};
 					//itoa(d, buf, 10);
-					//terminal->puts(buf);
+					console_puts(buf);
 					break;
 				}
 				case 'x':
@@ -36,18 +38,16 @@ int kprintf(const char* str, ...)
 					int d = va_arg(ap, int);
 					char buf[16] = {0};
 					//itoa(d, buf, 16);
-					//terminal->puts(buf);
+					console_puts(buf);
 					break;
 				}
 				case 's':
 				{
 					char* s = va_arg(ap, char*);
 					if(s)
-						s = NULL;
-						//terminal->puts(s);
+						console_puts(s);
 					else
-						s = NULL;
-						//terminal->puts("null");
+						console_puts("null");
 					break;
 				}
 				default:
@@ -61,7 +61,7 @@ int kprintf(const char* str, ...)
 		else
 		{
 			int a = 1;
-			// terminal_putc(str[i]);
+			console_putc(str[i]);
 		}
 	}
 	va_end(ap);
