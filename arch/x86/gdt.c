@@ -74,6 +74,6 @@ void gdt_init()
   uint64_t gdtr_descriptor = make_gdtr_descriptor(sizeof(gdt) - 1, gdt);
   __asm__ __volatile__ ("lgdt %0" : : "m" (gdtr_descriptor));
   /* Loads the TSS with its segment's offset */
-  // __asm__ __volatile__ ("ltr %w0" : : "q" (0x28));
+  __asm__ __volatile__ ("ltr %w0" : : "q" (0x28));
   return;
 }

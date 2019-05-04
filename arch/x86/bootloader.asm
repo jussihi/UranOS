@@ -49,9 +49,9 @@ _start:
 
 _1:
 	cmp esi, (_begin_link-0xC0000000)
-	jl _2
+	jb _2
 	cmp esi, (_end_link-0xC0000000)
-	jge _3
+	jae _3
 
 	mov edx, esi
 	or edx, 0x003
@@ -75,7 +75,7 @@ _3:
 	mov cr3, ecx
 
 	; enable paging
-	mov ecx, cr3
+	mov ecx, cr0
 	or ecx, 0x80010000
 	mov cr0, ecx
 

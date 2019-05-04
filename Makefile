@@ -34,7 +34,7 @@ run: $(KERNEL_IMAGE)
 	$(QEMU_CMD) -kernel $(KERNEL_IMAGE) $(QEMU_PARAMS)
 
 debug_run: $(KERNEL_IMAGE)
-	$(QEMU_CMD) -s -S -kernel $(KERNEL_IMAGE) $(QEMU_PARAMS)
+	$(QEMU_CMD) -s -S -kernel $(KERNEL_IMAGE) $(QEMU_PARAMS) -no-reboot -no-shutdown
 
 CFLAGS+=-Iinclude -Iarch/$(ARCH)/include -D__URANOS_ARCH_$(ARCH)__
 CFLAGS+=-g
