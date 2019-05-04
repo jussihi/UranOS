@@ -13,9 +13,10 @@ SECTIONS
 	}
 	_end_text = .;
 	_begin_rodata = .;
-	.rodata ALIGN(4K) : AT (ADDR (.rodata) - 0xC0000000)
+	.rodata ALIGN (4K) : AT (ADDR (.rodata) - 0xC0000000)
 	{
 		*(.rodata)
+		*(.rodata.*)
 	}
 	_end_rodata = .;
 	_begin_data = .;

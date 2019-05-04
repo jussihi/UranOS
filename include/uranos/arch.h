@@ -3,6 +3,7 @@
 
 #ifdef __URANOS_ARCH_x86__
 
+#include <tss.h>
 #include <hal.h>
 #include <gdt.h>
 
