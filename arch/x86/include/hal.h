@@ -1,5 +1,5 @@
-#ifndef __URANOS_X86HAL_HH
-#define __URANOS_X86HAL_HH
+#ifndef __URANOS_X86_HAL_HH
+#define __URANOS_X86_HAL_HH
 
 #include <stdint.h>
 

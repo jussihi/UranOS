@@ -17,7 +17,7 @@ static uint16_t vga_create_char(char _c)
   return c | (0x0F) << 8;
 }
 
-static void update_cursor()
+static void vga_update_cursor()
 {
 	uint16_t pos = y * VGA_WIDTH + x;
  
@@ -31,7 +31,7 @@ static void vga_putc(char c)
 {
 	*(uint16_t*)(VGA_START + (y * 2 * VGA_WIDTH + x * 2)) = vga_create_char(c);
 	x++;
-	update_cursor();
+	vga_update_cursor();
 }
 
 /* Do we even need this? We get the input from the keyboard driver... */
@@ -51,7 +51,7 @@ static void vga_clear(void)
 	}
 	x = 0;
 	y = 0;
-	update_cursor();
+	vga_update_cursor();
 }
 
 console_t vga_console = {

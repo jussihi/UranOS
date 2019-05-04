@@ -13,7 +13,7 @@ KERNEL_IMAGE=kernel.img
 ARCH=x86
 
 # Options for QEMU
-QEMU_PARAMS=-serial stdio -no-reboot
+QEMU_PARAMS=
 
 #######################
 # * END CONFIG PART * #

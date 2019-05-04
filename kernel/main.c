@@ -1,5 +1,6 @@
 #include <uranos/arch.h>
 #include <uranos/console.h>
+#include <uranos/kernel.h>		// kprintf
 
 int kmain(void)
 {

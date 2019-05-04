@@ -1,8 +1,5 @@
 #include <uranos/arch.h>
 
-// x86 include
-#include <gdt.h>
-
 #include <stdint.h>
 
 void init_arch(void)

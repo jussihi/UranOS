@@ -1,4 +1,4 @@
-#include <uranos/x86/hal.h>
+#include <hal.h>
 
 uint8_t inb(uint16_t w_port)
 {
