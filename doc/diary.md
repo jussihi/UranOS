@@ -1,5 +1,9 @@
 4.5.2019
 
+Added TSS, but for some reason loading it crashes the whole kernel. I have no idea why. https://wiki.osdev.org/TSS says that ss0, esp0 and iopb need to be defined when loading. I have not defined esp0, but it should not crash the whole kernel. Also, the GDT is loaded properly as described in https://wiki.osdev.org/GDT. I also checked that the TSS struct is indeed page-aligned and also packed properly using IDA. Well, I need to troubleshoot it properly some other day... It might even be the gcc messing up somehow :/
+
+4.5.2019
+
 I added a simple VGA driver which is able to clear the screen for now. I did not add any other functionality just yet, because the VGA cursor still remains. It seems like I need to add the outb and inb functions to disable/move it. More info about it can be found from the website https://wiki.osdev.org/Text_Mode_Cursor. The screen is now cleared once the system boots, so there is no blue text anymore for testing purposes :-)
 
 4.5.2019
