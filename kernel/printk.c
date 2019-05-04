@@ -1,6 +1,7 @@
 #include <uranos/kernel.h>
 #include <uranos/console.h>
 #include <uranos/string.h>		/* strlen */
+#include <uranos/stdlib.h>		/* itoa */
 
 #include <stdarg.h>
 
@@ -29,7 +30,7 @@ int kprintf(const char* str, ...)
 				{
 					int d = va_arg(ap, int);
 					char buf[16] = {0};
-					//itoa(d, buf, 10);
+					itoa(d, buf, 10);
 					console_puts(buf);
 					break;
 				}
@@ -37,7 +38,7 @@ int kprintf(const char* str, ...)
 				{
 					int d = va_arg(ap, int);
 					char buf[16] = {0};
-					//itoa(d, buf, 16);
+					itoa(d, buf, 16);
 					console_puts(buf);
 					break;
 				}

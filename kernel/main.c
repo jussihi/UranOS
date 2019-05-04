@@ -1,6 +1,7 @@
 #include <uranos/arch.h>
 #include <uranos/console.h>
 #include <uranos/kernel.h>		// kprintf
+#include <stddef.h>
 
 int kmain(void)
 {
@@ -32,5 +33,6 @@ int kmain(void)
 	kprintf("22\n");
 	kprintf("23\n");
 	kprintf("Another very long message to test the 80-char newline treshold... It seems to work fine ...\n");
+	kprintf("Testing 0x%x for hex and %d for decimals and %s for strings.\n", 16, 10, "testi");
 	while(1);
 }

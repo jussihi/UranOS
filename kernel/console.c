@@ -19,7 +19,7 @@ void console_putc(const char c)
 
 void console_puts(const char* str)
 {
-	while(str)
+	while(*str)
 		console_putc(*str++);
 	return;
 }
