@@ -10,6 +10,8 @@
 
 #include "stddef.h"
 
+#include <stdint.h>
+
 
 // check faster 32-bit aligned from 
 // https://sourceware.org/viewvc/src/newlib/libc/string/memchr.c?revision=1.4&view=markup
@@ -54,12 +56,12 @@ static inline void* memcpy(void* _dest, const void* _src, size_t _num)
 // yuck, disgusting
 static inline void* memmove(void* _dest, const void* _src, size_t _num)
 {
-    unsigned char* dest = dest;
+    uint8_t* dest = _dest;
     if(_src > _dest)
     {
         while(_num--)
         {
-            *dest++ = *(unsigned char*)_src++;
+            *dest++ = *(uint8_t*)_src++;
         }
     }
     else
@@ -68,7 +70,7 @@ static inline void* memmove(void* _dest, const void* _src, size_t _num)
         _src += _num;
         while(_num--)
         {
-            *--dest = *(unsigned char*)--_src;
+            *--dest = *(uint8_t*)--_src;
         }
     }
     return _dest;
