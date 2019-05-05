@@ -6,6 +6,7 @@
 #include <tss.h>
 #include <hal.h>
 #include <gdt.h>
+#include <idt.h>
 
 #endif
 

@@ -1,3 +1,7 @@
+5.5.2019
+
+Got TSS working yesterday, thanks to #osdev IRC channel on freenode :-) Today was time to create the interrupt trampoline routines in assembly, which came out pretty easily. I think I'll create the interrupt handling so that all interrupts fall to the same function in the kernel, which then checks if a handler has been assigned, and raises some sort of error if not. There is a file for PIC, but it is not yet implemented at all. 
+
 4.5.2019
 
 Added TSS, but for some reason loading it crashes the whole kernel. I have no idea why. https://wiki.osdev.org/TSS says that ss0, esp0 and iopb need to be defined when loading. I have not defined esp0, but it should not crash the whole kernel. Also, the GDT is loaded properly as described in https://wiki.osdev.org/GDT. I also checked that the TSS struct is indeed page-aligned and also packed properly using IDA. Well, I need to troubleshoot it properly some other day... It might even be the gcc messing up somehow :/
