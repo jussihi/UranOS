@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef struct __attribute((__packed__)) {
+typedef struct __attribute__((__packed__)) {
   uint32_t edi;
   uint32_t esi;
   uint32_t ebp;

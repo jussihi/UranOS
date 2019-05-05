@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef struct __attribute((__packed__)) {
+typedef struct __attribute__((__packed__)) {
   uint16_t limit_lo;
   uint16_t base_lo;
   uint8_t base_mid;
