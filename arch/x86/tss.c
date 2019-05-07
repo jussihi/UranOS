@@ -7,7 +7,7 @@ void tss_init(void)
 {
 	memset(&tss, 0, sizeof(TSS_t));
 	tss.ss0 = 0x10;
-    tss.iopb = 104;
+    tss.iopb = sizeof(TSS_t);
     return;
 }
 

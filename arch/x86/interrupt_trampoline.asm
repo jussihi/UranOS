@@ -305,3 +305,16 @@ int_1 252
 int_1 253
 int_1 254
 int_1 255
+
+
+GLOBAL interrupt_fpointers
+interrupt_fpointers:
+	%macro add_int 1
+		dd intr%1
+	%endmacro
+
+%assign i 0 
+%rep    256
+    add_int i
+%assign i i+1 
+%endrep
