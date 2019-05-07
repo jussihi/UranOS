@@ -1,3 +1,7 @@
+7.5.2019
+
+IDT is now fully loaded and mapped. I made it so that all the interrupts come through the same interrupt relay function, and the struct includes the interrupt number that was issued to the CPU. Everything seems to work fine, even after testing with a couple of software interrupts :-) The next task would most likely be tasking, but the PIT needs to be set up before that, although it seems like it is already sending interrupts to CPU (but they come in too slowly).
+
 5.5.2019
 
 Got TSS working yesterday, thanks to #osdev IRC channel on freenode :-) Today was time to create the interrupt trampoline routines in assembly, which came out pretty easily. I think I'll create the interrupt handling so that all interrupts fall to the same function in the kernel, which then checks if a handler has been assigned, and raises some sort of error if not. There is a file for PIC, but it is not yet implemented at all. 
