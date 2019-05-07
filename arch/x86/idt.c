@@ -33,7 +33,7 @@ int interrupt_register_handler(interrupt_handler* handler, int intno, int dpl, i
 }
 
 
-void interrupt_relay(interrupt_ctx* ctx)
+void interrupt_relay(pt_regs* ctx)
 {
 	if(interrupt_handlers[ctx->intno])
 	{

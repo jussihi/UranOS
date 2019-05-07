@@ -52,4 +52,4 @@ $(KERNEL_IMAGE): $(KERNEL_OBJS)
 	@$(AS) $(ASFLAGS) $< -o $@
 
 clean:
-	rm $(KERNEL_OBJS) $(KERNEL_IMAGE)
+	@rm $(KERNEL_OBJS) $(KERNEL_IMAGE)

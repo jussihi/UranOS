@@ -3,7 +3,7 @@
 
 // once we get tasking working, we create a 
 // real interrupt handler with tasking
-static void pit_irq_dummy(interrupt_ctx* ctx)
+static void pit_irq_dummy(pt_regs* ctx)
 {
 	return;
 }

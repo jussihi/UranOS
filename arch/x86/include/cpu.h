@@ -24,6 +24,6 @@ typedef struct __attribute__((__packed__)) {
   uint32_t eflags;
   void *esp;
   uint16_t ss, :16;
-} interrupt_ctx;
+} pt_regs;
 
 #endif /* __URANOS_X86_CPU_H */

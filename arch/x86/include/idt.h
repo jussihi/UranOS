@@ -15,12 +15,12 @@ typedef struct __attribute__((__packed__)) {
   uint16_t offset_hi;
 } IDT_t;
 
-typedef void interrupt_handler (interrupt_ctx*);
+typedef void interrupt_handler (pt_regs*);
 
 
 int interrupt_register_handler(interrupt_handler* handler, int intno, int dpl, int level);
 
-void interrupt_relay(interrupt_ctx* ctx);
+void interrupt_relay(pt_regs* ctx);
 
 void idt_set_gate(int idx, uint32_t handler, uint8_t type, uint8_t dpl);
 
