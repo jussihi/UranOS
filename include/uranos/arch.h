@@ -7,6 +7,7 @@
 #include <hal.h>
 #include <gdt.h>
 #include <idt.h>
+#include <pit.h>
 
 #endif
 

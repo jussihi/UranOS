@@ -18,9 +18,11 @@ typedef struct __attribute__((__packed__)) {
 typedef void interrupt_handler (interrupt_ctx*);
 
 
+int interrupt_register_handler(interrupt_handler* handler, int intno, int dpl, int level);
+
 void interrupt_relay(interrupt_ctx* ctx);
 
-void idt_set_gate(IDT_t* entry, uint32_t handler, uint8_t type, uint8_t dpl);
+void idt_set_gate(int idx, uint32_t handler, uint8_t type, uint8_t dpl);
 
 void idt_init();
 

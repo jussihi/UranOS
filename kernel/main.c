@@ -9,5 +9,7 @@ int kmain(void)
 	console_init();
 	init_arch();
 	kprintf("Testing 0x%x for hex and %d for decimals and %s for strings.\n", 16, 10, "testi");
+	kprintf("Enabling interrupts ...\n");
+	__asm__ __volatile__ ("sti");
 	while(1);
 }

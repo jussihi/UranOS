@@ -14,6 +14,24 @@ static IDT_t idt[IDT_INTERRUPT_COUNT];
 // handlers for the interrupts
 static interrupt_handler *interrupt_handlers[IDT_INTERRUPT_COUNT];
 
+int interrupt_register_handler(interrupt_handler* handler, int intno, int dpl, int level)
+{
+	if(intno < 0 || intno > 255)
+	{
+		return -1;
+	}
+	if(level == 1)
+	{
+		idt_set_gate(intno, interrupt_fpointers[intno], IDT_GATE_TYPE_TRAP, dpl);
+	}
+	else
+	{
+		idt_set_gate(intno, interrupt_fpointers[intno], IDT_GATE_TYPE_INTR, dpl);
+	}
+	interrupt_handlers[intno] = handler;
+	return 0;
+}
+
 
 void interrupt_relay(interrupt_ctx* ctx)
 {
@@ -36,8 +54,9 @@ void interrupt_relay(interrupt_ctx* ctx)
 }
 
 // Should the entry actually just be a number (offset)?
-void idt_set_gate(IDT_t* entry, uint32_t handler, uint8_t type, uint8_t dpl)
+void idt_set_gate(int idx, uint32_t handler, uint8_t type, uint8_t dpl)
 {
+  IDT_t* entry = &idt[idx];
   entry->offset_lo = handler & 0xFFFF;
   entry->selector = 0x8;
   entry->zero_byte = 0;
@@ -54,7 +73,7 @@ void idt_init()
 
 	for(int i = 0; i < IDT_INTERRUPT_COUNT; i++)
 	{
-		idt_set_gate(&idt[i], interrupt_fpointers[i], IDT_GATE_TYPE_INTR, 0);
+		idt_set_gate(i, interrupt_fpointers[i], IDT_GATE_TYPE_INTR, 0);
 	}
 
 	uint64_t idtr_operand = (uint64_t)((sizeof(idt) - 1) | ((uint64_t)(uint32_t)idt << 16));
