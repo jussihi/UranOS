@@ -1,6 +1,8 @@
 #ifndef __URANOS_ARCH_HH
 #define __URANOS_ARCH_HH
 
+#include <stdint.h>
+
 #ifdef __URANOS_ARCH_x86__
 
 #include <tss.h>
@@ -8,6 +10,10 @@
 #include <gdt.h>
 #include <idt.h>
 #include <pit.h>
+
+typedef uint32_t bm_element;
+
+#define MAX_PAGE_FRAMES 32768 // 4 GiB
 
 #endif
 
