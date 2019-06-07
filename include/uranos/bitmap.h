@@ -28,5 +28,7 @@ uint8_t bm_test_bit(bitmap_t* bm, size_t idx);
 
 void bm_set_all(bitmap_t* bm, uint8_t value);
 
+int32_t bm_scan(bitmap_t* bm, uint8_t value, uint32_t count);
+
 
 #endif /* __URANOS_BITMAP_HH */

@@ -14,6 +14,7 @@
 typedef uint32_t bm_element;
 
 #define MAX_PAGE_FRAMES 32768 // 4 GiB
+#define PAGE_SIZE 4096
 
 #define BITS_PER_LONG 32
 #define LONG_MAX_VALUE 4294967295
