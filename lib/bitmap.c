@@ -1,5 +1,5 @@
 #include <uranos/bitmap.h>
-
+#include <uranos/kernel.h>    // kprintf
 
 
 int bm_destroy(bitmap_t* bm)
@@ -26,7 +26,7 @@ void bm_set_bit_off(bitmap_t* bm, size_t idx)
 
 void bm_set_bit_on(bitmap_t* bm, size_t idx)
 {
-	bm->bits[idx/BITS_PER_LONG] &= (1 << (BITS_PER_LONG-idx-1));
+	bm->bits[idx/BITS_PER_LONG] |= (1 << (BITS_PER_LONG-idx-1));
 	return;
 }
 
@@ -66,4 +66,29 @@ void bm_set_all(bitmap_t* bm, uint8_t value)
   }
 
 	return;
+}
+
+int32_t bm_scan(bitmap_t* bm, uint8_t value, uint32_t count)
+{
+  if(count <= bm->bit_count)
+  {
+    for(uint32_t i = 0; i < bm->bit_count - count; i++)
+    {
+      uint32_t j;
+      for(j = i; j < i + count; j++)
+      {
+        if(bm_test_bit(bm, j) != value)
+        {
+          break;
+        }
+      }
+      kprintf("got through for\n");
+      if(j == i + count)
+      {
+        return i;
+      }
+    }
+    return -1;
+  }
+  return -1;
 }
