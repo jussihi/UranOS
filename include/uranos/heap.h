@@ -8,11 +8,12 @@ typedef struct heap_block {
   struct heap_block* prev;
   struct heap_block* next;
   size_t block_size;
-  size_t wordmap_size;
+  size_t bytemap_size;
   size_t size_bytes;
   size_t used_bytes;
   size_t free_bytes;
   size_t last_freed_offset;
+  uint8_t last_used_id;
 } heap_block_t;
 
 
