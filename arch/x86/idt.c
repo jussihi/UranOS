@@ -41,7 +41,7 @@ void interrupt_relay(pt_regs* ctx)
 	}
 	else
 	{
-		kprintf("No interrupt handler set for interrupt %d!\n", ctx->intno);
+		// kprintf("No interrupt handler set for interrupt %d!\n", ctx->intno);
 	}
 
 	// If the interrupt came from PIC, we need to 

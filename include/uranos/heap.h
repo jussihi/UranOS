@@ -2,6 +2,7 @@
 #define __URANOS_HEAP_HH
 
 #include <uranos/arch.h>
+#include <stddef.h>
 
 
 typedef struct heap_block {
@@ -26,7 +27,7 @@ void init_heap(void);
  * 
  * Calls add_heap_block to create the new block
  */
-int add_heap_block(size_t size_bytes, size_t block_size);
+int add_heap_block(heap_block_t* heap, size_t size_bytes, size_t block_size);
 
 /*
  * This function will _create a heap block_ of AT LEAST the size of 
@@ -39,12 +40,22 @@ heap_block_t* create_heap_block(size_t size_bytes, size_t block_size);
  * Allocates *size* amount of bytes of memory from a heap
  * block specified as a param
  */
-uintptr_t kmalloc_from_block(heap_block_t* block, size_t size);
+uintptr_t malloc_from_block(heap_block_t* block, size_t size);
+
+/*
+ * Finds and allocates memory of amount of *size* bytes from
+ * *alloc_heap*. This can be used for both kernel allocations (using kmalloc)
+ * and userspace allocations, when ring3 app context has its own heap.
+ *
+ * Calls *malloc_from_block* to mark the heap wordmap
+ * for the allocation
+ */
+uintptr_t malloc_from_heap(heap_block_t* alloc_heap, size_t size);
 
 /*
  * Finds and allocates memory of amount of *size* bytes.
  *
- * Calls *kmalloc_from_block* to mark the heap wordmap
+ * Calls *malloc_from_heap* to alloc from kernel heap
  * for the allocation
  */
 uintptr_t kmalloc(size_t size);

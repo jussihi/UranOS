@@ -2,6 +2,8 @@
 #include <uranos/bitmap.h>
 #include <uranos/heap.h>
 
+#include <uranos/kernel.h>    // kprintf
+
 /*
 typedef struct heap_block {
   struct heap_block* prev;
@@ -22,6 +24,8 @@ typedef struct heap_block {
  */
 static heap_block_t* heap;
 
+#define DEFAULT_BLOCK_SIZE 32
+
 
 void init_heap(void)
 {
@@ -29,26 +33,25 @@ void init_heap(void)
   heap = NULL;
 
   /* Add a new block to the heap to start with */
-  add_heap_block(0x100000, 16);
+  heap = create_heap_block(0x100000, DEFAULT_BLOCK_SIZE);
   return;
 }
 
-int add_heap_block(size_t size_bytes, size_t block_size)
+int add_heap_block(heap_block_t* alloc_heap, size_t size_bytes, size_t block_size)
 {
   heap_block_t* new_block = create_heap_block(size_bytes, block_size);
 
   if(new_block == NULL)
     return -1;
 
-  /* If the heap is empty, point (global) heap to the newly allocated block */
-  if(!heap)
+  /* If the heap is empty, return fail */
+  if(!alloc_heap)
   {
-    heap = new_block;
-    return 0;
+    return -1;
   }
 
   /* Otherwise add the newly allocated block to the (global) heap */
-  heap_block_t* curr = heap;
+  heap_block_t* curr = alloc_heap;
   while(curr->next)
   {
     curr = curr->next;
@@ -69,6 +72,8 @@ heap_block_t* create_heap_block(size_t size_bytes, size_t block_size)
   size_t pages = (size_bytes + bytemap_size + sizeof(heap_block_t)) / PAGE_SIZE;
   if((size_bytes + bytemap_size + sizeof(heap_block_t)) % PAGE_SIZE)
     pages++;
+
+  kprintf("Allocating a new heap block with pfalloc (%d pages)!\n", pages);
   heap_block_t* block = (heap_block_t*)pfalloc_pages(pages);
 
   /* Setup the block */
@@ -81,6 +86,8 @@ heap_block_t* create_heap_block(size_t size_bytes, size_t block_size)
   block->free_bytes = size_bytes;
   block->last_freed_offset = 0;
 
+  kprintf("New block allocated! size: %d, start: %x\n", block->size_bytes, block + sizeof(heap_block_t) + block->bytemap_size);
+
   /* Setup the bytemap */
   uint8_t* bytemap = (uint8_t*)&block[1];
   for(int i = 0; i < bytemap_size; i++)
@@ -92,7 +99,7 @@ heap_block_t* create_heap_block(size_t size_bytes, size_t block_size)
 }
 
 
-uintptr_t kmalloc_from_block(heap_block_t* block, size_t size)
+uintptr_t malloc_from_block(heap_block_t* block, size_t size)
 {
   if(block->free_bytes < size)
     return (uintptr_t)NULL;
@@ -138,7 +145,7 @@ uintptr_t kmalloc_from_block(heap_block_t* block, size_t size)
         block->free_bytes -= needed_blocks * block->block_size;
         block->last_freed_offset = i + iterated + 1;
 
-        return (uintptr_t)(bytemap + i);
+        return (uintptr_t)(bytemap + block->bytemap_size + (i * block->block_size));
       }
     }
   }
@@ -179,7 +186,7 @@ uintptr_t kmalloc_from_block(heap_block_t* block, size_t size)
         block->free_bytes -= needed_blocks * block->block_size;
         block->last_freed_offset = i + iterated + 1;
 
-        return (uintptr_t)(bytemap + i);
+        return (uintptr_t)(bytemap + block->bytemap_size + (i * block->block_size));
       }
     }
   }
@@ -187,10 +194,65 @@ uintptr_t kmalloc_from_block(heap_block_t* block, size_t size)
   return (uintptr_t)NULL;
 }
 
+uintptr_t malloc_from_heap(heap_block_t* alloc_heap, size_t size)
+{
+  if(!alloc_heap)
+  {
+    (uintptr_t)NULL;
+  }
+
+  /* Try to find a block with enough memory for allocation */
+  for(heap_block_t* curr = alloc_heap; curr; curr = curr->next)
+  {
+    if(curr->free_bytes >= size)
+    {
+      uintptr_t alloced = malloc_from_block(curr, size);
+      if(alloced != (uintptr_t)NULL)
+      {
+        kprintf("malloc allocated memory from %x!\n", alloced);
+        return alloced;
+      }
+    }
+  }
+
+  /* 
+   * If we could not find a block with enough allocatable mem,
+   * we will create a new block with enough space.
+   * If the requested memory size is over 10 MiB, we allocate 
+   * only memory needed for it, if under,
+   * we allocate 4* the requested memory for future allocations
+   */
+  heap_block_t* new_block;
+  if(size > 0x100000)
+  {
+    if(add_heap_block(alloc_heap, size, DEFAULT_BLOCK_SIZE))
+    {
+      return (uintptr_t)NULL;
+    }
+  }
+
+  if(add_heap_block(alloc_heap, size * 4, DEFAULT_BLOCK_SIZE))
+  {
+    return (uintptr_t)NULL;
+  }
+
+  /* Try to find a block with enough memory for allocation (again) */
+  for(heap_block_t* curr = alloc_heap; curr; curr = curr->next)
+  {
+    if(curr->free_bytes >= size)
+    {
+      uintptr_t alloced = malloc_from_block(curr, size);
+      if(alloced != (uintptr_t)NULL) return alloced;
+    }
+  }
+
+  /* If we could not allocate memory, bail out */
+  return (uintptr_t)NULL;
+}
+
 uintptr_t kmalloc(size_t size)
 {
-  // TODO: IMPLEMENT!
-  return (uintptr_t)NULL;
+  return malloc_from_heap(heap, size);
 }
 
 void kfree(uintptr_t addr)

@@ -1,6 +1,8 @@
 #include <uranos/pfalloc.h>
 #include <uranos/bitmap.h>
 
+#include <uranos/kernel.h>
+
 // These come from arch, because arch-based (if we ever get to 64-bit lol)
 // Because one page is 4096 bytes, we must use 32768*32 (sizeof bm_element) to get total of 
 // 4 GiB
@@ -26,6 +28,7 @@ uintptr_t pfalloc_pages(int num_pages)
 	if(idx == -1)
 	{
 		// out of memory!
+		kprintf("pfalloc: no memory!\n");
 		return (uintptr_t)NULL;
 	}
 
