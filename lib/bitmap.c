@@ -1,4 +1,5 @@
 #include <uranos/bitmap.h>
+#include <uranos/kernel.h>
 
 
 int bm_destroy(bitmap_t* bm)
@@ -83,6 +84,7 @@ int32_t bm_scan(bitmap_t* bm, uint8_t value, uint32_t count)
       }
       if(j == i + count)
       {
+        kprintf("returning %x", i);
         return i;
       }
     }

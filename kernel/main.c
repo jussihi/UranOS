@@ -19,18 +19,9 @@ int kmain(void)
 	kprintf("Successfully allocated 3 pages from address %x!\n", respages);
 
 	respages = pfalloc_pages(256);
-	kprintf("Successfully allocated 7 pages from address %x!\n", respages);
-	respages = pfalloc_pages(1);
-	char* test = (char*)respages;
-	kprintf("1 %d\n", &kmain);
-	test[0] = 'a';
-	kprintf("2\n");
-	test[1] = 0;
-	kprintf("%s\n", test);
-	init_heap();
-	kmalloc(100);
-	kmalloc(100);
-	kmalloc(1000);
-	kmalloc(500);
+	kprintf("Successfully allocated 256 pages from address %x!\n", respages);
+	respages = pfalloc_pages(256);
+	kprintf("Successfully allocated 256 pages from address %x!\n", respages);
+	kprintf("Location of kprintf is 0x%x\n", &kprintf);
 	while(1);
 }

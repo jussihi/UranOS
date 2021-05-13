@@ -7,4 +7,6 @@
 
 char* itoa(int32_t _v, char* _r, int32_t _b);
 
+char *utoa(uint32_t _v, char *_r, int32_t _b);
+
 #endif

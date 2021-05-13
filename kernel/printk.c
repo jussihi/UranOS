@@ -38,7 +38,7 @@ int kprintf(const char* str, ...)
 				{
 					int d = va_arg(ap, int);
 					char buf[16] = {0};
-					itoa(d, buf, 16);
+					utoa(d, buf, 16);
 					console_puts(buf);
 					break;
 				}
