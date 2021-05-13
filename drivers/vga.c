@@ -10,6 +10,9 @@
 #define VGA_WIDTH  80
 #define VGA_HEIGHT 25
 
+//    0xB8000
+
+
 static int x;
 static int y;
 

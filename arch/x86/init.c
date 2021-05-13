@@ -8,4 +8,5 @@ void init_arch(void)
 	gdt_init();
 	idt_init();
 	pit_init();
+	
 }

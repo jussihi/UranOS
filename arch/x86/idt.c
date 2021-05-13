@@ -35,10 +35,6 @@ int interrupt_register_handler(interrupt_handler* handler, int intno, int dpl, i
 
 void interrupt_relay(pt_regs* ctx)
 {
-	if(ctx->intno != 14)
-	{
-		kprintf("Got interrupt %d\n", ctx->intno);
-	}
 	if(interrupt_handlers[ctx->intno])
 	{
 		interrupt_handlers[ctx->intno](ctx);

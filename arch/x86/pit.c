@@ -6,7 +6,6 @@
 // real interrupt handler with tasking
 static void pit_irq_dummy(pt_regs* ctx)
 {
-	kprintf("got a pit interrupt\n");
 	return;
 }
 

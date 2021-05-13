@@ -1,6 +1,15 @@
 #ifndef __URANOS_X86_CPU_H
 #define __URANOS_X86_CPU_H
 
+#define MAX_PAGE_FRAMES 32768 // 4 GiB
+#define PAGE_SIZE 4096
+
+#define BITS_PER_LONG 32
+#define LONG_MAX_VALUE 4294967295
+
+#define ENABLE_INTERRUPTS()  __asm__ __volatile__("sti")
+#define DISABLE_INTERRUPTS() __asm__ __volatile__("cli")
+
 #include <stdint.h>
 
 typedef struct __attribute__((__packed__)) {

@@ -22,7 +22,7 @@ typedef struct heap_block {
  * for the future we should have separate heaps for every userspace program,
  * so that garbage collection becomes possible
  */
-static heap_block_t* heap;
+static heap_block_t* kernel_heap;
 
 #define DEFAULT_BLOCK_SIZE 32
 
@@ -30,10 +30,10 @@ static heap_block_t* heap;
 void init_heap(void)
 {
   /* NULLify heap */
-  heap = NULL;
+  kernel_heap = NULL;
 
   /* Add a new block to the heap to start with */
-  heap = create_heap_block(0x100000, DEFAULT_BLOCK_SIZE);
+  kernel_heap = create_heap_block(0x100000, DEFAULT_BLOCK_SIZE);
   return;
 }
 
@@ -75,6 +75,11 @@ heap_block_t* create_heap_block(size_t size_bytes, size_t block_size)
 
   kprintf("Allocating a new heap block with pfalloc (%d pages)!\n", pages);
   heap_block_t* block = (heap_block_t*)pfalloc_pages(pages);
+
+  kprintf("Setting up the block ...");
+
+  // TODO: virtual memory!
+  
 
   /* Setup the block */
   block->prev = NULL;
@@ -252,12 +257,12 @@ uintptr_t malloc_from_heap(heap_block_t* alloc_heap, size_t size)
 
 uintptr_t kmalloc(size_t size)
 {
-  return malloc_from_heap(heap, size);
+  return malloc_from_heap(kernel_heap, size);
 }
 
 void kfree(uintptr_t addr)
 {
-  for(heap_block_t* block = heap; block; block = block->next)
+  for(heap_block_t* block = kernel_heap; block; block = block->next)
   {
     if(addr > (uintptr_t)block && addr < (uintptr_t)block + sizeof(heap_block_t) + block->bytemap_size + block->size_bytes)
     {
