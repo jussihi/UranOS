@@ -51,8 +51,8 @@ void pfalloc_init(void)
 	pfalloc_bm.bits = pfalloc_bitmap;
 	bm_set_all(&pfalloc_bm, 0);
 
-	// mark the first 30 MiB
-	for(uintptr_t addr = 0; addr < 30 * 1024 * 1024; addr += 4096)
+	// mark the first 16 MiB
+	for(uintptr_t addr = 0; addr < 16 * 1024 * 1024; addr += 4096)
 	{
 		pfalloc_mark_addr(addr);
 	}
