@@ -84,7 +84,6 @@ int32_t bm_scan(bitmap_t* bm, uint8_t value, uint32_t count)
       }
       if(j == i + count)
       {
-        kprintf("returning %x", i);
         return i;
       }
     }
