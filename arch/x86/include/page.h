@@ -54,6 +54,6 @@ typedef uint32_t     pte_t;
 typedef uint32_t     pde_t;
 
 
-void reinit_paging();
+void reinit_kernel_paging();
 
 #endif
