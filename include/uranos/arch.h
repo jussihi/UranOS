@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#ifdef __URANOS_ARCH_x86__
+#ifdef __URANOS_ARCH_i686__
 
 #include <tss.h>
 #include <hal.h>
@@ -11,7 +11,7 @@
 #include <idt.h>
 #include <pit.h>
 #include <page.h>
-#include <x86.h>
+#include <i686.h>
 
 typedef uint32_t bm_element;
 

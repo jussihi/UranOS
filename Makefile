@@ -10,7 +10,7 @@
 KERNEL_IMAGE=kernel.img 
 
 # Set default arch (lol, could we do ARM some day?!)
-ARCH=x86
+ARCH=i686
 
 # Options for QEMU
 QEMU_PARAMS=
@@ -19,16 +19,16 @@ QEMU_PARAMS=
 # * END CONFIG PART * #
 #######################
 
-C_SOURCES:=$(shell find . -name '*.c')
-ASM_SOURCES:=$(shell find . -name '*.asm')
+C_SOURCES:=$(shell find . -name '*.c' -not -path './toolchain/*')
+ASM_SOURCES:=$(shell find . -name '*.asm' -not -path './toolchain/*')
 
 KERNEL_OBJS = $(subst .c,.o,$(C_SOURCES))
 KERNEL_OBJS += $(subst .asm,.o,$(ASM_SOURCES))
 
-# Includes needed CC, QEMU_CMD etc ...
+# Includes needed CC, QEMU_CMD etc. and toolchain makefile ...
 include arch/$(ARCH)/Makefile
 
-all: $(KERNEL_IMAGE)
+all: $(KERNEL_IMAGE) TOOLCHAIN
 
 run: $(KERNEL_IMAGE)
 	$(QEMU_CMD) -kernel $(KERNEL_IMAGE) $(QEMU_PARAMS)
@@ -38,6 +38,8 @@ debug_run: $(KERNEL_IMAGE)
 
 CFLAGS+=-Iinclude -Iarch/$(ARCH)/include -D__URANOS_ARCH_$(ARCH)__
 CFLAGS+=-g
+
+include toolchain/toolchain-$(ARCH).mk
 
 $(KERNEL_IMAGE): $(KERNEL_OBJS)
 	@echo "  LD     $@"
@@ -53,3 +55,5 @@ $(KERNEL_IMAGE): $(KERNEL_OBJS)
 
 clean:
 	@rm $(KERNEL_OBJS) $(KERNEL_IMAGE)
+
+

@@ -1,7 +1,7 @@
 #ifndef __URANOS_X86_IDT_H
 #define __URANOS_X86_IDT_H
 
-#include <x86.h>
+#include <i686.h>
 
 #define IDT_INTERRUPT_COUNT 256
 #define IDT_GATE_TYPE_INTR 0xE

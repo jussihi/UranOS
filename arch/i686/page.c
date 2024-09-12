@@ -1,5 +1,5 @@
 #include <page.h>
-#include <x86.h>
+#include <i686.h>
 #include <uranos/kernel.h>
 
 int paging_init = 0;
