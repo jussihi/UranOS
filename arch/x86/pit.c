@@ -6,10 +6,10 @@
 // real interrupt handler with tasking
 static void pit_irq_dummy(pt_regs* ctx)
 {
-	return;
+    return;
 }
 
 void pit_init()
 {
-	interrupt_register_handler(pit_irq_dummy, 32, 0, 0);
+    interrupt_register_handler(pit_irq_dummy, 32, 0, 0);
 }

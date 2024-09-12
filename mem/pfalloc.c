@@ -12,58 +12,58 @@ static bitmap_t pfalloc_bm;
 
 void pfalloc_mark_addr(uintptr_t addr)
 {
-	bm_set_bit_on(&pfalloc_bm, addr / PAGE_SIZE);
+    bm_set_bit_on(&pfalloc_bm, addr / PAGE_SIZE);
 }
 
 static void pfalloc_mark_idx(uint32_t idx)
 {
-	bm_set_bit_on(&pfalloc_bm, idx);
+    bm_set_bit_on(&pfalloc_bm, idx);
 }
 
 uintptr_t pfalloc_pages(int num_pages)
 {
-	int32_t idx;
-	idx = bm_scan(&pfalloc_bm, 0, num_pages);
+    int32_t idx;
+    idx = bm_scan(&pfalloc_bm, 0, num_pages);
 
-	if(idx == -1)
-	{
-		// out of memory!
-		kprintf("pfalloc: no memory!\n");
-		return (uintptr_t)NULL;
-	}
+    if(idx == -1)
+    {
+        // out of memory!
+        kprintf("pfalloc: no memory!\n");
+        return (uintptr_t)NULL;
+    }
 
-	for(int i = idx; i < idx + num_pages; i++)
-	{
-		bm_set_bit_on(&pfalloc_bm, i);
-	}
-	return idx * 4096;
+    for(int i = idx; i < idx + num_pages; i++)
+    {
+        bm_set_bit_on(&pfalloc_bm, i);
+    }
+    return idx * 4096;
 }
 
 uintptr_t pfalloc_page(void)
 {
-	return pfalloc_pages(1);
+    return pfalloc_pages(1);
 }
 
 void pfalloc_init(void)
 {
-	//TODO: Get the RAM amount somehow
-	pfalloc_bm.bit_count = MAX_PAGE_FRAMES - 1;
-	pfalloc_bm.bits = pfalloc_bitmap;
-	bm_set_all(&pfalloc_bm, 0);
+    //TODO: Get the RAM amount somehow
+    pfalloc_bm.bit_count = MAX_PAGE_FRAMES - 1;
+    pfalloc_bm.bits = pfalloc_bitmap;
+    bm_set_all(&pfalloc_bm, 0);
 
-	// mark the first 16 MiB
-	for(uintptr_t addr = 0; addr < 16 * 1024 * 1024; addr += 4096)
-	{
-		pfalloc_mark_addr(addr);
-	}
+    // mark the first 16 MiB
+    for(uintptr_t addr = 0; addr < 16 * 1024 * 1024; addr += 4096)
+    {
+        pfalloc_mark_addr(addr);
+    }
 
-	// mark VGA memory
-	for(uintptr_t addr = 0xB8000; addr <= 0xB8000 + 0xC0000; addr += 4096)
-	{
-		pfalloc_mark_addr(addr);
-	}
+    // mark VGA memory
+    for(uintptr_t addr = 0xB8000; addr <= 0xB8000 + 0xC0000; addr += 4096)
+    {
+        pfalloc_mark_addr(addr);
+    }
 
-	// Todo: mark kernel. How?
+    // Todo: mark kernel. How?
 
-	return;
+    return;
 }

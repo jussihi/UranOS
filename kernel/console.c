@@ -8,33 +8,33 @@ static console_t* console;
 
 char console_getc(void)
 {
-	return console->getc();
+    return console->getc();
 }
 
 void console_putc(const char c)
 {
-	console->putc(c);
-	return;
+    console->putc(c);
+    return;
 }
 
 void console_puts(const char* str)
 {
-	while(*str)
-		console_putc(*str++);
-	return;
+    while(*str)
+        console_putc(*str++);
+    return;
 }
 
 void console_clear(void)
 {
-	console->clear();
-	return;
+    console->clear();
+    return;
 }
 
 
 int console_init(void)
 {
-	/* TODO: still ugly!!! */
-	console = vga_get_console();
-	console_clear();
-	return 0;
+    /* TODO: still ugly!!! */
+    console = vga_get_console();
+    console_clear();
+    return 0;
 }

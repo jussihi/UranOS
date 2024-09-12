@@ -4,41 +4,41 @@
 
 int bm_destroy(bitmap_t* bm)
 {
-	return 0;
+    return 0;
 }
 
 size_t bm_sizeof(bitmap_t* bm)
 {
-	return bm->bit_count;
+    return bm->bit_count;
 }
 
 void bm_set_bit_value(bitmap_t* bm, size_t idx, uint8_t value)
 {
-	bm->bits[idx/BITS_PER_LONG] |= (!!value << (BITS_PER_LONG-idx-1));
-	return;
+    bm->bits[idx/BITS_PER_LONG] |= (!!value << (BITS_PER_LONG-idx-1));
+    return;
 }
 
 void bm_set_bit_off(bitmap_t* bm, size_t idx)
 {
-	bm->bits[idx/BITS_PER_LONG] &= ~(1 << (BITS_PER_LONG-idx-1));
-	return;
+    bm->bits[idx/BITS_PER_LONG] &= ~(1 << (BITS_PER_LONG-idx-1));
+    return;
 }
 
 void bm_set_bit_on(bitmap_t* bm, size_t idx)
 {
-	bm->bits[idx/BITS_PER_LONG] |= (1 << (BITS_PER_LONG-idx-1));
-	return;
+    bm->bits[idx/BITS_PER_LONG] |= (1 << (BITS_PER_LONG-idx-1));
+    return;
 }
 
 void bm_set_bit_flip(bitmap_t* bm, size_t idx)
 {
-	bm->bits[idx/BITS_PER_LONG] ^= (1 << (BITS_PER_LONG-idx-1));
-	return;
+    bm->bits[idx/BITS_PER_LONG] ^= (1 << (BITS_PER_LONG-idx-1));
+    return;
 }
 
 uint8_t bm_test_bit(bitmap_t* bm, size_t idx)
 {
-	return ((bm->bits[idx/BITS_PER_LONG] >> (BITS_PER_LONG-idx-1)) & 1);
+    return ((bm->bits[idx/BITS_PER_LONG] >> (BITS_PER_LONG-idx-1)) & 1);
 }
 
 void bm_set_all(bitmap_t* bm, uint8_t value)
@@ -65,7 +65,7 @@ void bm_set_all(bitmap_t* bm, uint8_t value)
     }
   }
 
-	return;
+    return;
 }
 
 int32_t bm_scan(bitmap_t* bm, uint8_t value, uint32_t count)
